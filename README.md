@@ -1,11 +1,11 @@
-![image](https://github.com/puranjayb/apni-dukaan-online-SIH-2023/assets/90250628/95ff563f-a1c8-45e9-b454-654d8661b207)![image](https://github.com/puranjayb/apni-dukaan-online-SIH-2023/assets/90250628/e8db1234-3549-4555-a2b7-611a9f2d1381)# apni-dukaan-online-SIH-2023
 <div><h2><strong>Developers of this Repository -</strong></h2></div>
 
 <table align="center">
 <tr align="center">
 
-<td>
-**Hardik Malani**
+<td> 
+  
+**Hardik M**
 
 <p align="center">
 <img src = "https://avatars.githubusercontent.com/u/113377657?v=4"  height="120" alt="Hardik">
@@ -20,7 +20,8 @@
 
 
 <td>
-**Vikrant Kumar**
+  
+**Vikrant K**
 
 <p align="center">
 <img src = "https://avatars.githubusercontent.com/u/139103899?v=4"  height="120" alt="Vikrant">
@@ -35,7 +36,8 @@
 
 
 <td> 
-**Shivam Bansal**
+  
+**Shivam B**
 
 <p align="center">
 <img src = "https://avatars.githubusercontent.com/u/113500973?v=4"  height="120" alt="Shivam">
@@ -50,7 +52,8 @@
 </td>
 
 <td>
-**Anouska Jhunjhunwala**
+  
+**Anouska J**
 
 <p align="center">
 <img src = "https://avatars.githubusercontent.com/u/82711261?v=4"  height="120" alt="Anouska">
@@ -66,7 +69,8 @@
 
 
 <td> 
-**Paavan Agrwal**
+  
+**Paavan A**
 
 <p align="center">
 <img src = "https://avatars.githubusercontent.com/u/115879925?v=4"  height="120" alt="Paavan">
@@ -82,6 +86,7 @@
 
 
 <td>
+  
 **Puranjay B**
 
 <p align="center">
