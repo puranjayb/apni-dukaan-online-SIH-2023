@@ -1,6 +1,6 @@
 ## apni dukaan online SIH 2023
 
-## link for [https://www.kaggle.com/datasets/paramaggarwal/fashion-product-images-small](dataset)
+## link for [dataset](https://www.kaggle.com/datasets/paramaggarwal/fashion-product-images-small)
 
 <div><h2><strong>Developers of this Repository -</strong></h2></div>
 
