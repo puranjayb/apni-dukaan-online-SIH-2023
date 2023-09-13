@@ -24,7 +24,7 @@ const addProduct = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const { name, description, price, quantity } = req.body;
+    const { productId, name, description, price, quantity } = req.body;
     const imageFile = req.file;
 
     // Generate a new ObjectId for the filename
@@ -44,6 +44,7 @@ const addProduct = async (req, res) => {
     const image = await getDownloadURL(imagesRef);
 
     const product = new Product({
+      productId,
       name,
       description,
       image,

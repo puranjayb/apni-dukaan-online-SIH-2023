@@ -4,14 +4,27 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
 
-const { products, addProduct } = require("../controllers/store");
+const {
+  products,
+  addProduct,
+  url,
+  orders,
+  createOrder,
+} = require("../controllers/store");
 
 router.get("/products", products);
 router.post(
-  "/products/add",
+  "/products",
   passport.authenticate("jwt", { session: false }),
   upload.single("image"),
   addProduct,
+);
+router.get("/url", url);
+router.get("/orders", passport.authenticate("jwt", { session: false }), orders);
+router.post(
+  "/orders",
+  passport.authenticate("jwt", { session: false }),
+  createOrder,
 );
 
 module.exports = router;
