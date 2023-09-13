@@ -9,6 +9,8 @@ export default function ProductFeed() {
     const [searchTrue, setSearchTrue] = useState(false);
   const [searchResults, setSearchResults] = useState(MockDB);
 
+//   const [cur]
+
   // Create a function to handle changes in the search input
   const handleInputChange = (event) => {
     // Update the searchValue state with the new input value
@@ -21,9 +23,9 @@ export default function ProductFeed() {
 
     const filteredResults = [...MockDB]
         // Filter items whose title contains the search value (case-insensitive)
-        filteredResults = filteredResults.filter((product) =>
-          product.title.toLowerCase().indexOf(searchValue.toLowerCase()) == -1
-        );
+        filteredResults = filteredResults.filter((product) => {
+          return product.title.indexOf(searchValue.toLowerCase()) == -1;
+  });
     
         setSearchResults(filteredResults);
       setSearchTrue(event);
@@ -130,7 +132,7 @@ export default function ProductFeed() {
             {searchResults.map((product, index) => (
               <div
                 key={index}
-                className="bg-gray-100 shadow-xl rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700 m-5 "
+                className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5 "
               >
                 <a href="#">
                   <img
@@ -141,7 +143,7 @@ export default function ProductFeed() {
                 </a>
                 <div className="px-5 pb-5">
                   <a href="#">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight dark:text-white">
+                    <h3 className="text-gray-900 font-semibold text-xl tracking-tightw">
                       {product.title}
                     </h3>
                   </a>
