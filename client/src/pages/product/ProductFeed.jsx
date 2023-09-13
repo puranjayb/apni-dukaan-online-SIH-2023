@@ -5,6 +5,7 @@ import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import UilProfile from "@iconscout/react-unicons/icons/uil-user-circle";
 import Productdesc from "../productdesc/Productdesc";
 import { MockDB } from "./MockDB.js";
+import Footer from "../../components/footer/Footer";
 
 export default function ProductFeed() {
   const [searchValue, setSearchValue] = useState("");
@@ -228,6 +229,7 @@ export default function ProductFeed() {
           </nav>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -5,8 +5,7 @@ import Uilfb from "@iconscout/react-unicons/icons/uil-facebook";
 import Uilphone from "@iconscout/react-unicons/icons/uil-phone";
 
 
-export default function 
-() {
+export default function Footer() {
   return (
     <div className='bg-gray-900 flex flex-col md:flex-row py-5 text-white items-center md:justify-evenly overflow-hidden ml-4 md:ml-0'>
         <div className='flex flex-col md:space-y-5 py-4 md:space-x-4'>

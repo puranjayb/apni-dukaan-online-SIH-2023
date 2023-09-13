@@ -6,6 +6,7 @@ import Uilcart from "@iconscout/react-unicons/icons/uil-shopping-cart-alt";
 import { MockDB } from "../product/MockDB.js";
 import { Link } from "react-router-dom";
 import ProductFeed from "../product/ProductFeed";
+import Footer from "../../components/footer/Footer.jsx";
 
 export default function Productdesc() {
   const { productId } = useParams();
@@ -101,7 +102,7 @@ export default function Productdesc() {
       </div>
       <div className="flex flex-col w-fit">
         <div className="flex flex-row justify-between p-3">
-          <Link to="/product-feed" className="font-semibold">
+          <Link to="/" className="font-semibold">
             &lt; Back
           </Link>
           <div className="border-2 flex flex-row space-x-2 w-[130px] p-2 rounded-lg">
@@ -203,6 +204,7 @@ export default function Productdesc() {
             ))} */}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
