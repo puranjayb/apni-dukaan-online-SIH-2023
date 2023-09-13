@@ -11,10 +11,10 @@ from io import BytesIO
 app = Flask(__name__)
 
 # Load the pre-trained model and data
-model_architecture_path = "model_architecture.json"
-model_weights_path = "model_weights.h5"
-df_embedding = pd.read_csv('embeddings_data.csv')
-df = pd.read_csv('../fashion-dataset/styled-updated.csv')
+model_architecture_path = "model_architecture-new.json"
+model_weights_path = "model_weights-new.h5"
+df_embedding = pd.read_csv('embeddings_data_new.csv')
+df = pd.read_csv('../data/small-new.csv')
 
 with open(model_architecture_path, "r") as json_file:
     loaded_model_json = json_file.read()
@@ -46,7 +46,7 @@ def upload_image():
 
         recommended_images = []
         for idx in top_indices:
-            recommended_image_path = "../fashion-dataset/images/" + df['image'].iloc[idx]
+            recommended_image_path = "../data/images/" + df['Image'].iloc[idx]
             recommended_images.append(recommended_image_path)
 
         return jsonify({'recommended_images': recommended_images}), 200
