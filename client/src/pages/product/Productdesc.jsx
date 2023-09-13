@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import Uilcart from "@iconscout/react-unicons/icons/uil-shopping-cart-alt";
-import { MockDB } from "../product/MockDB.js";
+import { MockDB } from "./MockDB.js";
 import { Link } from "react-router-dom";
-import ProductFeed from "../product/ProductFeed";
+import ProductFeed from "./ProductFeed.jsx";
 import Footer from "../../components/footer/Footer.jsx";
 
 export default function Productdesc() {
@@ -204,7 +204,7 @@ export default function Productdesc() {
             ))} */}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

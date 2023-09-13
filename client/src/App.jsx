@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Landing from "./pages/landing/Landing";
 import LoginPage from "./pages/landing/login";
 import ProductFeed from "./pages/product/ProductFeed";
-import Productdesc from "./pages/productdesc/Productdesc";
+import Productdesc from "./pages/product/Productdesc";
 function App() {
   return (
     <div>
