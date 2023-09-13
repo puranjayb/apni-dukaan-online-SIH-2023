@@ -1,6 +1,6 @@
 import React from "react";
 
-const Navbar = () => {
+const LoginNavbar = () => {
   return (
     <div className="flex h-fit w-full bg-[#555555] mt-3">
       <a href="">
@@ -12,4 +12,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default LoginNavbar;
