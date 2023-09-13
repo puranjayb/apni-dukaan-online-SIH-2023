@@ -112,7 +112,7 @@ export default function ProductFeed() {
           </button>
         </div>
         <button>
-          <UilProfile size="25" color="#FFF" />
+          <img src={"/profile.png"} width="40" alt="profile" />
         </button>
       </div>
 
@@ -173,7 +173,7 @@ export default function ProductFeed() {
         <nav className="m-4 justify-center">
         <ul className="pagination flex flex-row space-x-5">
           <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => handlePageChange(currentPage - 1)}>
+            <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => {if(currentPage!=1){handlePageChange(currentPage - 1)}}}>
               Previous
             </button>
           </li>
@@ -188,7 +188,7 @@ export default function ProductFeed() {
             </li>
           ))}
           <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => handlePageChange(currentPage + 1)}>
+            <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => {if(currentPage!=totalPages)handlePageChange(currentPage + 1)}}>
               Next
             </button>
           </li>
