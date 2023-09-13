@@ -5,11 +5,23 @@ import UilProfile from "@iconscout/react-unicons/icons/uil-user-circle";
 import { MockDB } from "./MockDB.js";
 
 export default function ProductFeed() {
-    const [searchValue, setSearchValue] = useState("");
-    const [searchTrue, setSearchTrue] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchTrue, setSearchTrue] = useState(false);
   const [searchResults, setSearchResults] = useState(MockDB);
 
-//   const [cur]
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 6;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  const records = MockDB.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(MockDB.length / recordsPerPage);
+  const numbers = [...Array(npage + 1).keys()].slice(1);
+  const totalPages = Math.ceil((searchTrue ? searchResults.length : MockDB.length) / recordsPerPage);
+
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   // Create a function to handle changes in the search input
   const handleInputChange = (event) => {
@@ -21,14 +33,14 @@ export default function ProductFeed() {
     // Update the searchValue state with the new input value
     console.log(searchValue);
 
-    const filteredResults = [...MockDB]
-        // Filter items whose title contains the search value (case-insensitive)
-        filteredResults = filteredResults.filter((product) => {
-          return product.title.indexOf(searchValue.toLowerCase()) == -1;
-  });
-    
-        setSearchResults(filteredResults);
-      setSearchTrue(event);
+    const filteredResults = [...MockDB];
+    // Filter items whose title contains the search value (case-insensitive)
+    filteredResults = filteredResults.filter((product) => {
+      return product.title.indexOf(searchValue.toLowerCase()) == -1;
+    });
+
+    setSearchResults(filteredResults);
+    setSearchTrue(event);
   };
 
   return (
@@ -129,7 +141,7 @@ export default function ProductFeed() {
             </div>
           ) : null}
           <div className="flex flex-wrap p-4 justify-center">
-            {searchResults.map((product, index) => (
+            {records.map((product, index) => (
               <div
                 key={index}
                 className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5 "
@@ -152,12 +164,36 @@ export default function ProductFeed() {
                     {/* Render rating and other details here */}
                   </div>
                   <div className="flex items-center justify-between">
-                  ₹ {product.price} / piece
+                    ₹ {product.price} / piece
                   </div>
                 </div>
               </div>
             ))}
           </div>
+        <nav className="m-4 justify-center">
+        <ul className="pagination flex flex-row space-x-5">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => handlePageChange(currentPage - 1)}>
+              Previous
+            </button>
+          </li>
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <li
+              key={index}
+              className={`page-item mt-2 ${currentPage === index + 1 ? "active" : ""}`}
+            >
+              <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                {index + 1}
+              </button>
+            </li>
+          ))}
+          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+            <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => handlePageChange(currentPage + 1)}>
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
         </div>
       </div>
     </div>
