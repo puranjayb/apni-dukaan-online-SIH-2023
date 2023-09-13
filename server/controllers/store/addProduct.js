@@ -5,9 +5,9 @@ const {
   getStorage,
 } = require("firebase/storage");
 const { firebaseApp } = require("../../firebase.config");
-
 const Store = require("../../models/Store");
 const Product = require("../../models/Product");
+const mongoose = require("mongoose");
 
 const addProduct = async (req, res) => {
   const { user } = req;
@@ -27,11 +27,10 @@ const addProduct = async (req, res) => {
     const { name, description, price, quantity } = req.body;
     const imageFile = req.file;
 
+    // Generate a new ObjectId for the filename
+    const objectId = new mongoose.Types.ObjectId();
     const fileName =
-      Date.now() +
-      "_" +
-      imageFile.originalname.toLowerCase().replace(/[^a-z0-9]/g, "") +
-      "." +
+      objectId.toString() +
       imageFile.originalname.split(".").pop().toLowerCase();
 
     const storage = getStorage(firebaseApp);

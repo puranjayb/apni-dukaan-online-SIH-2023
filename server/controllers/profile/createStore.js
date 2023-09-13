@@ -1,12 +1,6 @@
-const {
-  uploadBytes,
-  ref,
-  getDownloadURL,
-  getStorage,
-} = require("firebase/storage");
-const { firebaseApp } = require("../../firebase.config");
-const Store = require("../../models/Store");
-const User = require("../../models/User");
+const mongoose = require("mongoose");
+
+// ...
 
 const createStore = async (req, res) => {
   const { email } = req.user;
@@ -31,27 +25,26 @@ const createStore = async (req, res) => {
       return res.status(400).json({ message: "No logo file provided" });
     }
 
-    const fileName =
-      Date.now() +
-      "_" +
-      logoFile.originalname.toLowerCase().replace(/[^a-z0-9]/g, "") +
-      "." +
-      logoFile.originalname.split(".").pop().toLowerCase();
-
     const storage = getStorage(firebaseApp);
-    const imagesRef = ref(storage, "images/logos/" + fileName);
 
-    // Upload the logo to Firebase Storage
+    // Generate a new ObjectId for the store
+    const storeId = new mongoose.Types.ObjectId();
+
+    const fileName =
+      "logo" + logoFile.originalname.split(".").pop().toLowerCase();
+
+    const imagesRef = ref(storage, `images/stores/${storeId}/${fileName}`);
+
+    // Upload the logo to Firebase Storage with the correct path
     await uploadBytes(imagesRef, logoFile.buffer);
 
-    const logoURL = await getDownloadURL(imagesRef);
-
-    // Create a new store
+    // Create a new store with the generated ObjectId and the logo URL
     const newStore = new Store({
+      _id: storeId,
       name,
       description,
       url,
-      logo: logoURL,
+      logo: await getDownloadURL(imagesRef), // Set the logo URL here
       owner: user._id,
     });
 
@@ -59,7 +52,7 @@ const createStore = async (req, res) => {
     await newStore.save();
 
     // Update the user with the store reference
-    user.store = newStore._id;
+    user.store = storeId;
     await user.save();
 
     return res.status(201).json({
@@ -72,5 +65,3 @@ const createStore = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-
-module.exports = createStore;
