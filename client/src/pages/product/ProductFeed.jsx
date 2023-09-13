@@ -16,8 +16,9 @@ export default function ProductFeed() {
   const records = MockDB.slice(firstIndex, lastIndex);
   const npage = Math.ceil(MockDB.length / recordsPerPage);
   const numbers = [...Array(npage + 1).keys()].slice(1);
-  const totalPages = Math.ceil((searchTrue ? searchResults.length : MockDB.length) / recordsPerPage);
-
+  const totalPages = Math.ceil(
+    (searchTrue ? searchResults.length : MockDB.length) / recordsPerPage
+  );
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -144,18 +145,18 @@ export default function ProductFeed() {
             {records.map((product, index) => (
               <div
                 key={index}
-                className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5 "
+                className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5"
               >
                 <a href="#">
                   <img
-                    className="rounded-xl p-8"
+                    className="rounded-xl p-8 w-64"
                     src={product.imageUrl}
                     alt={product.imageAlt}
                   />
                 </a>
                 <div className="px-5 pb-5">
                   <a href="#">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tightw">
+                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight flex flex-row flex-wrap">
                       {product.title}
                     </h3>
                   </a>
@@ -170,7 +171,7 @@ export default function ProductFeed() {
               </div>
             ))}
           </div>
-        <nav className="m-4 justify-center">
+          <nav className="m-4 justify-center">
         <ul className="pagination flex flex-row space-x-5">
           <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
             <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => {if(currentPage!=1){handlePageChange(currentPage - 1)}}}>

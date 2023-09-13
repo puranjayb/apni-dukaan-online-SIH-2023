@@ -3,6 +3,8 @@ import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import Uilcart from "@iconscout/react-unicons/icons/uil-shopping-cart-alt";
 import { MockProductDesc } from "./MockProductDesc";
+import { Link } from "react-router-dom";
+import ProductFeed from "../product/ProductFeed";
 
 export default function Productdesc() {
   const [searchValue, setSearchValue] = useState("");
@@ -92,7 +94,9 @@ export default function Productdesc() {
       </div>
       <div className="flex flex-col w-fit">
         <div className="flex flex-row justify-between p-3">
-          <button className="font-semibold">&lt; Back</button>
+          <Link to="/product-feed" className="font-semibold">
+            &lt; Back
+          </Link>
           <div className="border-2 flex flex-row space-x-2 w-[130px] p-2 rounded-lg">
             <Uilcart size="25" color="#000" className="" />
             <span>|</span>
@@ -162,12 +166,12 @@ export default function Productdesc() {
             </div>
             <div className="flex flex-row justify-between mt-4 ml-5">
               <div className="flex flex-row md:space-x-2">
-                <img className="h-[20px]" src={"/truckb.png"} alt="truck"/>
+                <img className="h-[20px]" src={"/truckb.png"} alt="truck" />
                 <span>Free Shipping</span>
               </div>
               <div className="flex flex-row md:space-x-2">
                 <span>Cash On Delivery</span>
-                <img className="h-[20px]" src={"/cash.png"} alt="truck"/>
+                <img className="h-[20px]" src={"/cash.png"} alt="truck" />
               </div>
             </div>
           </div>
