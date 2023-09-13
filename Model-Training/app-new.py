@@ -45,11 +45,14 @@ def upload_image():
         top_indices = cosine_sim.argsort()[0][-5:][::-1]
 
         recommended_images = []
+        recommended_id = []
         for idx in top_indices:
-            recommended_image_path = "../data/images/" + df['Image'].iloc[idx]
+            recommended_image_path = df['ImageURL'].iloc[idx]
+            recommended_id_path = df['Image'].iloc[idx]
             recommended_images.append(recommended_image_path)
+            recommended_id.append(recommended_id_path)
 
-        return jsonify({'recommended_images': recommended_images}), 200
+        return jsonify({'recommended_images': recommended_images}, {'product_id': recommended_id}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
