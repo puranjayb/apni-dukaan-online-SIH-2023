@@ -1,33 +1,12 @@
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import UilProfile from "@iconscout/react-unicons/icons/uil-user-circle";
-import { BrowserRouter as Router, Route,Routes, useNavigate } from "react-router-dom";
+import Productdesc from "../productdesc/Productdesc";
 import { MockDB } from "./MockDB.js";
-import Productdesc from "../productdesc/Productdesc.jsx";
 
-export default function ProductFeed () {
-  return (<Router>
-    <Routes>
-      <Route exact path="/" Component={<Feed />} />
-      {MockDB.map((product) => (
-          <Route
-          key={product.ProductId}
-          path={`/product/${product.ProductId}`}
-        >
-          <Suspense fallback={<div>Loading...</div>}>
-            <Productdesc product={product} />
-          </Suspense>
-        </Route>
-        ))}
-        <Route path="*" render={() => <div>Not Found</div>} />
-    </Routes>
-  </Router>)
-}
-
-
-function Feed() {
-  const navigate = useNavigate();
+export default function ProductFeed() {
   const [searchValue, setSearchValue] = useState("");
   const [searchTrue, setSearchTrue] = useState(false);
   const [searchResults, setSearchResults] = useState(MockDB);
@@ -166,59 +145,87 @@ function Feed() {
           ) : null}
           <div className="flex flex-wrap p-4 justify-center">
             {records.map((product, index) => (
-              <div
-                key={index}
-                className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5 hover:cursor-pointer"
-                onClick={navigate.push(`/product/${product.ProductId}`)}
-              >
-                <a href="#">
-                  <img
-                    className="rounded-xl p-8 w-64"
-                    src={product.imageUrl}
-                    alt={product.imageAlt}
-                  />
-                </a>
-                <div className="px-5 pb-5">
-                  <a href="#">
-                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight flex flex-row flex-wrap">
-                      {product.title}
-                    </h3>
+              <Link to={`/product/${product.ProductId}`} key={index}>
+                <div
+                  key={index}
+                  className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg w-fit max-w-xs m-5"
+                >
+                  <a
+                    className="mx-3 flex justify-center h-60 overflow-hidden rounded-xl"
+                    href="#"
+                  >
+                    <img
+                      className="content-center mt-3 w-full object-cover"
+                      src={product.imageUrl}
+                      alt={product.imageAlt}
+                    />
                   </a>
-                  {product.description}
-                  <div className="flex items-center mt-2.5 mb-5">
-                    {/* Render rating and other details here */}
-                  </div>
-                  <div className="flex items-center justify-between">
-                    ₹ {product.price} / piece
+                  <div className="px-5 pb-5">
+                    <a href="#">
+                      <h3 className="text-gray-900 font-semibold text-xl tracking-tight flex flex-row flex-wrap">
+                        {product.title}
+                      </h3>
+                    </a>
+                    {product.description}
+                    <div className="flex items-center mt-2.5 mb-5">
+                      {/* Render rating and other details here */}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      ₹ {product.price} / piece
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           <nav className="m-4 justify-center">
-        <ul className="pagination flex flex-row space-x-5">
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => {if(currentPage!=1){handlePageChange(currentPage - 1)}}}>
-              Previous
-            </button>
-          </li>
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <li
-              key={index}
-              className={`page-item mt-2 ${currentPage === index + 1 ? "active" : ""}`}
-            >
-              <button className="page-link" onClick={() => handlePageChange(index + 1)}>
-                {index + 1}
-              </button>
-            </li>
-          ))}
-          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button className="page-link bg-black text-white p-2 rounded-md" onClick={() => {if(currentPage!=totalPages)handlePageChange(currentPage + 1)}}>
-              Next
-            </button>
-          </li>
-        </ul>
-      </nav>
+            <ul className="pagination flex flex-row space-x-5">
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
+                <button
+                  className="page-link bg-black text-white p-2 rounded-md"
+                  onClick={() => {
+                    if (currentPage != 1) {
+                      handlePageChange(currentPage - 1);
+                    }
+                  }}
+                >
+                  Previous
+                </button>
+              </li>
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <li
+                  key={index}
+                  className={`page-item mt-2 ${
+                    currentPage === index + 1 ? "active" : ""
+                  }`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+              <li
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
+              >
+                <button
+                  className="page-link bg-black text-white p-2 rounded-md"
+                  onClick={() => {
+                    if (currentPage != totalPages)
+                      handlePageChange(currentPage + 1);
+                  }}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>

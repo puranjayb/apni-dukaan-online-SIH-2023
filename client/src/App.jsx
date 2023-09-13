@@ -7,21 +7,18 @@ import { MockProductDesc } from "./pages/productdesc/MockProductDesc";
 import Productdesc from "./pages/productdesc/Productdesc";
 import Footer from "./components/footer/Footer";
 
-
 function App() {
   return (
-
     <div>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Productdesc/>}></Route>
-        <Route path="/product-feed" element={<ProductFeed/>}>
-        </Route>
-      </Routes>
-    </Router>
-    <Footer/>
-  </div>
-    )
+      <Router>
+        <Routes>
+          <Route path="/" element={<ProductFeed />}></Route>
+          <Route path="/product/:productId" Component={Productdesc}></Route>
+        </Routes>
+      </Router>
+      <Footer />
+    </div>
+  );
 }
 
 export default App;

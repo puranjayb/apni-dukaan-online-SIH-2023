@@ -1,12 +1,19 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import Uilcart from "@iconscout/react-unicons/icons/uil-shopping-cart-alt";
-import { MockProductDesc } from "./MockProductDesc";
+import { MockDB } from "../product/MockDB.js";
 import { Link } from "react-router-dom";
 import ProductFeed from "../product/ProductFeed";
 
-export default function Productdesc({product}) {
+export default function Productdesc() {
+  const { productId } = useParams();
+  console.log(productId);
+  const product = MockDB.find(
+    (product) => product.ProductId === parseInt(productId)
+  );
+  console.log(product);
   const [searchValue, setSearchValue] = useState("");
   const [searchTrue, setSearchTrue] = useState(false);
 
@@ -106,11 +113,7 @@ export default function Productdesc({product}) {
         <div className="flex flex-row justify-evenly">
           <div className="flex flex-col">
             <div className="border-2 md:w-[20%] p-5 mx-5 flex justify-center items-center rounded-2xl">
-              <img
-                src={product.imageUrl}
-                alt="img"
-                className="w-screen"
-              />
+              <img src={product.imageUrl} alt="img" className="w-screen" />
             </div>
             <div className="flex flex-col md:hidden">
               <span className="text-2xl border-b-2 border-black m-3 text-center">
@@ -120,9 +123,7 @@ export default function Productdesc({product}) {
                 <span className="text-red-600 text-center text-lg">
                   -{product.discount}%
                 </span>
-                <span className=" text-center">
-                  ₹ {product.price}
-                </span>
+                <span className=" text-center">₹ {product.price}</span>
                 <span className=" text-center text-gray-500 text-sm mt-2 line-through">
                   MRP : {product.oriprice}
                 </span>
@@ -142,13 +143,7 @@ export default function Productdesc({product}) {
               {product.title}
             </span>
             <div className="flex flex-row text-2xl py-6 border-b-2 border-black m-3 space-x-5">
-              <span className="text-red-600 text-center text-lg">
-                -{product.discount}%
-              </span>
-              <span className=" text-center">₹ {product.price}</span>
-              <span className=" text-center text-gray-500 text-sm mt-2 line-through">
-                MRP : {product.oriprice}
-              </span>
+              <span className=" text-center">MRP :₹ {product.price}</span>
             </div>
             <div className="flex flex-col py-6 border-b-2 border-black ml-4">
               <span>Offers</span>
@@ -178,8 +173,8 @@ export default function Productdesc({product}) {
         </div>
       </div>
       <div className="border-t-2 border-black m-10">
-          <div className="flex flex-wrap p-4 justify-center">
-            {/* {records.map((product, index) => (
+        <div className="flex flex-wrap p-4 justify-center">
+          {/* {records.map((product, index) => (
               <div
                 key={index}
                 className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5"
@@ -206,7 +201,7 @@ export default function Productdesc({product}) {
                 </div>
               </div>
             ))} */}
-          </div>
+        </div>
       </div>
     </div>
   );
