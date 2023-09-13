@@ -6,7 +6,7 @@ import { MockProductDesc } from "./MockProductDesc";
 import { Link } from "react-router-dom";
 import ProductFeed from "../product/ProductFeed";
 
-export default function Productdesc() {
+export default function Productdesc({product}) {
   const [searchValue, setSearchValue] = useState("");
   const [searchTrue, setSearchTrue] = useState(false);
 
@@ -107,24 +107,24 @@ export default function Productdesc() {
           <div className="flex flex-col">
             <div className="border-2 md:w-[20%] p-5 mx-5 flex justify-center items-center rounded-2xl">
               <img
-                src={MockProductDesc[0].imageUrl}
+                src={product.imageUrl}
                 alt="img"
                 className="w-screen"
               />
             </div>
             <div className="flex flex-col md:hidden">
               <span className="text-2xl border-b-2 border-black m-3 text-center">
-                {MockProductDesc[0].title}
+                {product.title}
               </span>
               <div className="flex flex-row text-2xl border-b-2 border-black m-3 space-x-5">
                 <span className="text-red-600 text-center text-lg">
-                  -{MockProductDesc[0].discount}%
+                  -{product.discount}%
                 </span>
                 <span className=" text-center">
-                  ₹ {MockProductDesc[0].price}
+                  ₹ {product.price}
                 </span>
                 <span className=" text-center text-gray-500 text-sm mt-2 line-through">
-                  MRP : {MockProductDesc[0].oriprice}
+                  MRP : {product.oriprice}
                 </span>
               </div>
             </div>
@@ -139,15 +139,15 @@ export default function Productdesc() {
           </div>
           <div className="md:flex flex-col -ml-[90%] hidden w-[50%]">
             <span className="text-2xl py-6 border-b-2 border-black m-3">
-              {MockProductDesc[0].title}
+              {product.title}
             </span>
             <div className="flex flex-row text-2xl py-6 border-b-2 border-black m-3 space-x-5">
               <span className="text-red-600 text-center text-lg">
-                -{MockProductDesc[0].discount}%
+                -{product.discount}%
               </span>
-              <span className=" text-center">₹ {MockProductDesc[0].price}</span>
+              <span className=" text-center">₹ {product.price}</span>
               <span className=" text-center text-gray-500 text-sm mt-2 line-through">
-                MRP : {MockProductDesc[0].oriprice}
+                MRP : {product.oriprice}
               </span>
             </div>
             <div className="flex flex-col py-6 border-b-2 border-black ml-4">
@@ -176,6 +176,37 @@ export default function Productdesc() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="border-t-2 border-black m-10">
+          <div className="flex flex-wrap p-4 justify-center">
+            {/* {records.map((product, index) => (
+              <div
+                key={index}
+                className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5"
+              >
+                <a href="#">
+                  <img
+                    className="rounded-xl p-8 w-64"
+                    src={product.imageUrl}
+                    alt={product.imageAlt}
+                  />
+                </a>
+                <div className="px-5 pb-5">
+                  <a href="#">
+                    <h3 className="text-gray-900 font-semibold text-xl tracking-tight flex flex-row flex-wrap">
+                      {product.title}
+                    </h3>
+                  </a>
+                  {product.description}
+                  <div className="flex items-center mt-2.5 mb-5">
+                  </div>
+                  <div className="flex items-center justify-between">
+                    ₹ {product.price} / piece
+                  </div>
+                </div>
+              </div>
+            ))} */}
+          </div>
       </div>
     </div>
   );

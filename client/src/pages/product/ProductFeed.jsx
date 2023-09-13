@@ -1,10 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import UilProfile from "@iconscout/react-unicons/icons/uil-user-circle";
+import { BrowserRouter as Router, Route,Routes, useNavigate } from "react-router-dom";
 import { MockDB } from "./MockDB.js";
+import Productdesc from "../productdesc/Productdesc.jsx";
 
-export default function ProductFeed() {
+export default function ProductFeed () {
+  return (<Router>
+    <Routes>
+      <Route exact path="/" Component={<Feed />} />
+      {MockDB.map((product) => (
+          <Route
+          key={product.ProductId}
+          path={`/product/${product.ProductId}`}
+        >
+          <Suspense fallback={<div>Loading...</div>}>
+            <Productdesc product={product} />
+          </Suspense>
+        </Route>
+        ))}
+        <Route path="*" render={() => <div>Not Found</div>} />
+    </Routes>
+  </Router>)
+}
+
+
+function Feed() {
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [searchTrue, setSearchTrue] = useState(false);
   const [searchResults, setSearchResults] = useState(MockDB);
@@ -145,7 +168,8 @@ export default function ProductFeed() {
             {records.map((product, index) => (
               <div
                 key={index}
-                className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5"
+                className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5 hover:cursor-pointer"
+                onClick={navigate.push(`/product/${product.ProductId}`)}
               >
                 <a href="#">
                   <img
