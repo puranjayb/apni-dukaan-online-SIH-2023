@@ -11,8 +11,8 @@ const StoreSchema = new mongoose.Schema({
   },
   url: {
     type: String,
-    required: [true, "Store URL is required"],
     unique: true,
+    required: [true, "Store URL is required"],
   },
   logo: {
     type: String,
@@ -21,8 +21,8 @@ const StoreSchema = new mongoose.Schema({
   products: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Product",
-    required: true,
     default: [],
+    required: true,
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -32,4 +32,5 @@ const StoreSchema = new mongoose.Schema({
 });
 
 const Store = mongoose.model("Store", StoreSchema);
+
 module.exports = Store;

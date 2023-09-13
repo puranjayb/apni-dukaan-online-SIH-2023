@@ -11,7 +11,7 @@ const ProductSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: [true, "Product images are required"],
+    required: [true, "Product image is required"],
   },
   price: {
     type: Number,
@@ -19,8 +19,8 @@ const ProductSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    required: true,
     default: 0,
+    required: true,
   },
   store: {
     type: mongoose.Schema.Types.ObjectId,
@@ -30,4 +30,5 @@ const ProductSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model("Product", ProductSchema);
+
 module.exports = Product;

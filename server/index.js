@@ -1,17 +1,19 @@
 require("dotenv").config();
 
 const express = require("express");
-const passport = require("./passport.config");
-const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const passport = require("./passport.config");
 const { initializeFirebase } = require("./firebase.config");
-initializeFirebase();
 
 const app = express();
+const port = process.env.PORT || 3000;
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
+// Routes
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
 const storeRoutes = require("./routes/store");
@@ -24,29 +26,22 @@ app.use(
 );
 app.use("/store", storeRoutes);
 
-/* const User = require("./models/User");
-app.get("/test", (req, res) => {
-  jwt.verify(req.body.auth, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(401).json({
-        message: "Unauthorized",
-      });
-    }
-    console.log(user);
-    return res.status(200).json({
-      message: "Authentication successful",
-      user,
-    });
-  });
-});
- */
-
+// Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log("Error connecting to MongoDB\n", err));
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to MongoDB");
+    // Start the Express server
+    app.listen(port, () => {
+      console.log(`Listening on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Error connecting to MongoDB:", err);
+  });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+// Initialize Firebase
+initializeFirebase();

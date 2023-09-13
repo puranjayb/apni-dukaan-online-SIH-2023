@@ -16,8 +16,8 @@ const UserSchema = new mongoose.Schema({
   phone: {
     type: Number,
     validate: {
-      validator: (e) => {
-        return /\d{10}/.test(e);
+      validator: (value) => {
+        return /\d{10}/.test(value);
       },
       message: "Phone number is not valid",
     },
@@ -25,17 +25,18 @@ const UserSchema = new mongoose.Schema({
   },
   isSeller: {
     type: Boolean,
-    required: true,
     default: false,
+    required: true,
   },
   store: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Store",
-    required: () => {
+    required: function () {
       return this.isSeller === true;
     },
   },
 });
 
 const User = mongoose.model("User", UserSchema);
+
 module.exports = User;

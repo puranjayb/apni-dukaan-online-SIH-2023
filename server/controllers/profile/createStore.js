@@ -5,7 +5,6 @@ const {
   getStorage,
 } = require("firebase/storage");
 const { firebaseApp } = require("../../firebase.config");
-
 const Store = require("../../models/Store");
 const User = require("../../models/User");
 
@@ -13,12 +12,14 @@ const createStore = async (req, res) => {
   const { email } = req.user;
 
   try {
+    // Find the user by email
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
+    // Check if the user already has a store
     if (user.store) {
       return res.status(400).json({ message: "Store already exists" });
     }
@@ -40,10 +41,12 @@ const createStore = async (req, res) => {
     const storage = getStorage(firebaseApp);
     const imagesRef = ref(storage, "images/logos/" + fileName);
 
+    // Upload the logo to Firebase Storage
     await uploadBytes(imagesRef, logoFile.buffer);
 
     const logoURL = await getDownloadURL(imagesRef);
 
+    // Create a new store
     const newStore = new Store({
       name,
       description,
@@ -52,17 +55,21 @@ const createStore = async (req, res) => {
       owner: user._id,
     });
 
+    // Save the store to MongoDB
     await newStore.save();
 
+    // Update the user with the store reference
     user.store = newStore._id;
     await user.save();
 
-    res
-      .status(201)
-      .json({ message: "Store created successfully", newStore, user });
+    return res.status(201).json({
+      message: "Store created successfully",
+      newStore,
+      user,
+    });
   } catch (error) {
     console.error("Error in create store:", error);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

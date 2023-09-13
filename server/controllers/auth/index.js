@@ -4,4 +4,10 @@ const verify = require("./verify");
 const login = require("./login");
 const verifyPassword = require("./verifyPassword");
 
-module.exports = { signup, logout, verify, login, verifyPassword };
+module.exports = {
+  signup,
+  logout,
+  verify,
+  login,
+  verifyPassword,
+};

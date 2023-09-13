@@ -13,17 +13,20 @@ const addProduct = async (req, res) => {
   const { user } = req;
   const storeId = req.body.store;
 
-  const store = await Store.findById(storeId);
-  if (!store) return res.status(404).json({ message: "Store not found" });
-
-  if (!store.owner.equals(user._id))
-    return res.status(401).json({ message: "Unauthorized" });
-
-  const { name, description, price, quantity } = req.body;
-
-  const imageFile = req.file;
-
   try {
+    const store = await Store.findById(storeId);
+
+    if (!store) {
+      return res.status(404).json({ message: "Store not found" });
+    }
+
+    if (!store.owner.equals(user._id)) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const { name, description, price, quantity } = req.body;
+    const imageFile = req.file;
+
     const fileName =
       Date.now() +
       "_" +
@@ -32,14 +35,14 @@ const addProduct = async (req, res) => {
       imageFile.originalname.split(".").pop().toLowerCase();
 
     const storage = getStorage(firebaseApp);
-    const ImagesRef = ref(
+    const imagesRef = ref(
       storage,
-      "images/stores/" + store._id + "/products/" + fileName,
+      `images/stores/${store._id}/products/${fileName}`,
     );
 
-    await uploadBytes(ImagesRef, imageFile.buffer);
+    await uploadBytes(imagesRef, imageFile.buffer);
 
-    const image = await getDownloadURL(ImagesRef);
+    const image = await getDownloadURL(imagesRef);
 
     const product = new Product({
       name,
@@ -49,6 +52,7 @@ const addProduct = async (req, res) => {
       quantity,
       store: store._id,
     });
+
     await product.save();
 
     store.products.push(product._id);
@@ -56,6 +60,7 @@ const addProduct = async (req, res) => {
 
     return res.status(200).json({ message: "Product added successfully" });
   } catch (error) {
+    console.error("Error adding product:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

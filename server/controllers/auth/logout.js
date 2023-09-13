@@ -1,7 +1,5 @@
 const logout = (req, res) => {
-  return res.status(200).json({
-    message: "Logout successful",
-  });
+  return res.status(204).end();
 };
 
 module.exports = logout;

@@ -11,17 +11,13 @@ const {
 } = require("../controllers/auth");
 
 router.post("/signup", signup);
-
 router.get("/login", login);
-
 router.post(
   "/logout",
   passport.authenticate("jwt", { session: false }),
   logout,
 );
-
 router.get("/verify", passport.authenticate("jwt", { session: false }), verify);
-
 router.get(
   "/verify-password",
   passport.authenticate("jwt", { session: false }),
