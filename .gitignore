@@ -1,5 +1,6 @@
 libraryVenv/
 fashion-dataset/
+data/
 
 # Logs
 logs
