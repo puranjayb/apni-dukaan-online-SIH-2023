@@ -9,7 +9,7 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: [true, "Product description is required"],
   },
-  images: {
+  image: {
     type: String,
     required: [true, "Product images are required"],
   },
@@ -19,7 +19,8 @@ const ProductSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    required: [true, "Product quantity is required"],
+    required: true,
+    default: 0,
   },
   store: {
     type: mongoose.Schema.Types.ObjectId,

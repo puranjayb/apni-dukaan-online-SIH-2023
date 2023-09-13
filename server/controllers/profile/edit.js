@@ -5,7 +5,9 @@ const edit = async (req, res) => {
   const { name, phone } = req.body;
 
   const filter = { email: user.email };
-  const update = name ? { name } : phone ? { phone } : null;
+  let update = {};
+  if (name) update.name = name;
+  if (phone) update.phone = phone;
 
   if (!update) return res.status(400).json({ message: "Bad request" });
 

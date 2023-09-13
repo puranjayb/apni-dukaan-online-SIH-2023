@@ -4,17 +4,17 @@ const express = require("express");
 const passport = require("./passport.config");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const { initializeFirebase } = require("./firebase.config");
 initializeFirebase();
 
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 const authRoutes = require("./routes/auth");
 const profileRoutes = require("./routes/profile");
+const storeRoutes = require("./routes/store");
 
 app.use("/auth", authRoutes);
 app.use(
@@ -22,6 +22,7 @@ app.use(
   passport.authenticate("jwt", { session: false }),
   profileRoutes,
 );
+app.use("/store", storeRoutes);
 
 /* const User = require("./models/User");
 app.get("/test", (req, res) => {

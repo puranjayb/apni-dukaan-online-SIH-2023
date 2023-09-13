@@ -9,6 +9,11 @@ const StoreSchema = new mongoose.Schema({
     type: String,
     required: [true, "Store description is required"],
   },
+  url: {
+    type: String,
+    required: [true, "Store URL is required"],
+    unique: true,
+  },
   logo: {
     type: String,
     required: [true, "Store logo is required"],

@@ -3,7 +3,7 @@ const User = require("../../models/User");
 
 const profile = async (req, res) => {
   const userPassword = req.user.password;
-  const { password } = req.query;
+  const { password } = req.body;
 
   if (bcrypt.compareSync(password, userPassword))
     return res
