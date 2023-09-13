@@ -14,8 +14,8 @@ function App() {
     <div>
     <Router>
       <Routes>
-        {/* <Route path="/" element={<Productdesc/>}> */}
-        <Route path="/" element={<ProductFeed/>}>
+        <Route path="/" element={<Productdesc/>}>
+        {/* <Route path="/" element={<ProductFeed/>}> */}
         </Route>
       </Routes>
     </Router>
