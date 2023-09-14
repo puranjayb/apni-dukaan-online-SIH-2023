@@ -8,6 +8,7 @@ from sklearn.metrics.pairwise import linear_kernel
 import matplotlib.image as mpimg
 from io import BytesIO
 import os
+import requests
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
@@ -28,17 +29,18 @@ img_width, img_height, chnl = 200, 200, 3
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No image provided'}), 400
-
-    uploaded_image = request.files['image']
-
-    if uploaded_image.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-
     try:
-        img_bytes = BytesIO(uploaded_image.read())
-        img = image.load_img(img_bytes, target_size=(img_width, img_height))
+        data = request.get_json()
+        image_url = data.get('image_url')
+
+        if not image_url:
+            return jsonify({'error': 'No image URL provided'}), 400
+
+        response = requests.get(image_url)
+        with open('temp_image.jpg', 'wb') as f:
+            f.write(response.content)
+
+        img = image.load_img('temp_image.jpg', target_size=(img_width, img_height))
         x = image.img_to_array(img)
         x = np.expand_dims(x, axis=0)
         x = preprocess_input(x)
@@ -47,14 +49,12 @@ def upload_image():
         cosine_sim = linear_kernel(recommendations, df_embedding)
         top_indices = cosine_sim.argsort()[0][-5:][::-1]
 
-
         recommended_product_ids = []
         for idx in top_indices:
             product_id = df['ProductId'].iloc[idx]
             recommended_product_ids.append(str(product_id))
 
         return jsonify({'recommended_product_ids': recommended_product_ids}), 200
-
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -93,3 +93,4 @@ def search_products():
 if __name__ == '__main__':
     #app.run(debug=True)
     app.run(host='0.0.0.0', port=5000)
+
