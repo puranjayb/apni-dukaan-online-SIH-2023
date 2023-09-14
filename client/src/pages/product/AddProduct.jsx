@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import Footer from "../../components/footer/Footer";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Uilcart from "@iconscout/react-unicons/icons/uil-shopping-cart-alt";
+import axios from "axios";
+import FormData from "form-data";
 
 export default function AddProduct() {
+  const storeURL = useParams();
   const [searchValue, setSearchValue] = useState("");
   const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("");
@@ -32,7 +35,34 @@ export default function AddProduct() {
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
     // You can handle the form data here, e.g., send it to a server
-    console.log("Form submitted:", { productName, category, price, desc ,selectedImage });
+    var data = new FormData();
+    data.append("productId", Math.random() * 100000000000000000);
+    data.append("name", productName);
+    data.append("description", desc);
+    data.append("image", selectedImage);
+    console.log(selectedImage);
+    data.append("price", price);
+    data.append("quantity", 1);
+    data.append("store", storeURL.url);
+
+    var config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "http://localhost:3000/store/products",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhYXZhbmFnckBnbWFpbC5jb20iLCJpYXQiOjE2OTQ2MTk2MzYsImV4cCI6MTcwMjM5NTYzNn0.g0yZiJy9N0U2gKtiT60U19oiOtROYH6GR_4plY5HrEQ",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -195,12 +225,16 @@ export default function AddProduct() {
                 <span class="block text-base font-semibold relative text-blue-900 group-hover:text-blue-500">
                   Upload a file
                 </span>
-                <span class="mt-0.5 block text-sm text-gray-500">
-                  Max 2 MB
-                </span>
+                <span class="mt-0.5 block text-sm text-gray-500">Max 2 MB</span>
               </div>
             </label>
-            <input hidden="" type="file" name="button2" id="button2" onChange={handleImageChange}/>
+            <input
+              hidden=""
+              type="file"
+              name="button2"
+              id="button2"
+              onChange={handleImageChange}
+            />
           </div>
           <br />
           {selectedImage && (

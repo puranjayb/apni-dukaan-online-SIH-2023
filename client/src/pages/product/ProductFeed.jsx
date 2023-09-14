@@ -1,24 +1,31 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
-import { MockDB } from "./MockDB.js";
+// import { MockDB } from "./MockDB.js";
 import Footer from "../../components/footer/Footer";
+
+import axios from "axios";
+import qs from "qs";
 
 export default function ProductFeed() {
   const [searchValue, setSearchValue] = useState("");
   const [searchTrue, setSearchTrue] = useState(false);
-  const [searchResults, setSearchResults] = useState(MockDB);
+  const [products, setProducts] = useState([]);
+  const [searchResults, setSearchResults] = useState(products);
+  const [storeData, setStoreData] = useState({});
+  const url = useParams();
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 6;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const records = MockDB.slice(firstIndex, lastIndex);
-  const npage = Math.ceil(MockDB.length / recordsPerPage);
+  const records = products.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(products.length / recordsPerPage);
   const numbers = [...Array(npage + 1).keys()].slice(1);
   const totalPages = Math.ceil(
-    (searchTrue ? searchResults.length : MockDB.length) / recordsPerPage
+    (searchTrue ? searchResults.length : products.length) / recordsPerPage
   );
 
   const handlePageChange = (page) => {
@@ -35,15 +42,38 @@ export default function ProductFeed() {
     // Update the searchValue state with the new input value
     console.log(searchValue);
 
-    const filteredResults = [...MockDB];
+    const filteredResults = [...products];
     // Filter items whose title contains the search value (case-insensitive)
     filteredResults = filteredResults.filter((product) => {
-      return product.title.indexOf(searchValue.toLowerCase()) == -1;
+      return product.name.indexOf(searchValue.toLowerCase()) == -1;
     });
 
     setSearchResults(filteredResults);
     setSearchTrue(event);
   };
+
+  const getProducts = () => {
+    var config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/store/products?url=${url.url}`,
+      headers: {},
+      data: url,
+    };
+
+    axios(config)
+      .then(function (response) {
+        setStoreData(response.data[0]);
+        setProducts(response.data[1]);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <div>
@@ -144,7 +174,12 @@ export default function ProductFeed() {
           ) : null}
           <div className="flex flex-wrap p-4 justify-center">
             {records.map((product, index) => (
-              <Link to={`/product/${product.ProductId}`} key={index}>
+              <div
+                key={index}
+                onClick={() => {
+                  navigate(`/${url.url}/products/${product._id}`);
+                }}
+              >
                 <div
                   key={index}
                   className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg w-fit max-w-xs m-5"
@@ -155,14 +190,14 @@ export default function ProductFeed() {
                   >
                     <img
                       className="content-center mt-3 w-full object-cover"
-                      src={product.imageUrl}
+                      src={product.image}
                       alt={product.imageAlt}
                     />
                   </a>
                   <div className="px-5 pb-5">
                     <a href="#">
                       <h3 className="text-gray-900 font-semibold text-xl tracking-tight flex flex-row flex-wrap">
-                        {product.title}
+                        {product.name}
                       </h3>
                     </a>
                     {product.description}
@@ -174,7 +209,7 @@ export default function ProductFeed() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
           <nav className="m-4 justify-center">

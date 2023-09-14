@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import Uilcart from "@iconscout/react-unicons/icons/uil-shopping-cart-alt";
@@ -7,14 +7,17 @@ import { MockDB } from "./MockDB.js";
 import { Link } from "react-router-dom";
 import ProductFeed from "./ProductFeed.jsx";
 import Footer from "../../components/footer/Footer.jsx";
+import axios from "axios";
+import qs from "qs";
 
 export default function Productdesc() {
-  const { productId } = useParams();
-  console.log(productId);
-  const product = MockDB.find(
-    (product) => product.ProductId === parseInt(productId)
-  );
-  console.log(product);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState({});
+  const [recommendations, setRecommendations] = useState([]);
+  // const product = MockDB.find(
+  //   (product) => product.ProductId === parseInt(productId)
+  // );
   const [searchValue, setSearchValue] = useState("");
   const [searchTrue, setSearchTrue] = useState(false);
 
@@ -28,6 +31,51 @@ export default function Productdesc() {
 
     setSearchTrue(event);
   };
+
+  const getData = () => {
+    var config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/store/product?id=${id}`,
+      headers: {},
+    };
+
+    axios(config)
+      .then(function (response) {
+        setProduct(response.data.product);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const getRecommendations = () => {
+    var config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/store/recommendations`,
+      headers: {},
+      data: {
+        imageUrl: product.image,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        setRecommendations(response.data.recommend_products_ids);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      await getData();
+      await getRecommendations();
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="overflow-hidden">
@@ -102,9 +150,9 @@ export default function Productdesc() {
       </div>
       <div className="flex flex-col w-fit">
         <div className="flex flex-row justify-between p-3">
-          <Link to="/" className="font-semibold">
+          <div className="font-semibold" onClick={() => navigate(-1)}>
             &lt; Back
-          </Link>
+          </div>
           <div className="border-2 flex flex-row space-x-2 w-[130px] p-2 rounded-lg">
             <Uilcart size="25" color="#000" className="" />
             <span>|</span>
@@ -114,11 +162,11 @@ export default function Productdesc() {
         <div className="flex flex-row justify-evenly">
           <div className="flex flex-col">
             <div className="border-2 md:w-[20%] p-5 mx-5 flex justify-center items-center rounded-2xl">
-              <img src={product.imageUrl} alt="img" className="w-screen" />
+              <img src={product.image} alt="img" className="w-screen" />
             </div>
             <div className="flex flex-col md:hidden">
               <span className="text-2xl border-b-2 border-black m-3 text-center">
-                {product.title}
+                {product.name}
               </span>
               <div className="flex flex-row text-2xl border-b-2 border-black m-3 space-x-5">
                 <span className="text-red-600 text-center text-lg">
@@ -126,7 +174,7 @@ export default function Productdesc() {
                 </span>
                 <span className=" text-center">₹ {product.price}</span>
                 <span className=" text-center text-gray-500 text-sm mt-2 line-through">
-                  MRP : {product.oriprice}
+                  MRP : {product.price}
                 </span>
               </div>
             </div>
@@ -141,7 +189,7 @@ export default function Productdesc() {
           </div>
           <div className="md:flex flex-col -ml-[90%] hidden w-[50%]">
             <span className="text-2xl py-6 border-b-2 border-black m-3">
-              {product.title}
+              {product.name}
             </span>
             <div className="flex flex-row text-2xl py-6 border-b-2 border-black m-3 space-x-5">
               <span className=" text-center">MRP :₹ {product.price}</span>
