@@ -58,8 +58,7 @@ export default function UpdateDetails() {
               type="text"
               id="firstName"
               name="firstName"
-              placeholder="Enter First Name *"
-              required
+              placeholder="Enter First Name "
               value={firstName}
               className="border-2 w-full rounded-3xl block self-center p-2 py-3"
               onChange={(e) => setFirstName(e.target.value)}
@@ -71,8 +70,7 @@ export default function UpdateDetails() {
               type="text"
               id="middleName"
               name="middleName"
-              placeholder="Enter Middle Name *"
-              required
+              placeholder="Enter Middle Name "
               value={middleName}
               className="border-2 w-full rounded-3xl block self-center p-2 py-3"
               onChange={(e) => setMiddleName(e.target.value)}
@@ -86,8 +84,7 @@ export default function UpdateDetails() {
               id="lastName"
               className="border-2 w-full rounded-3xl block self-center p-2 py-3"
               placeholder="Enter Last Name "
-              name="lastName"
-              required
+              name="lastNam"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               disabled={!isEditing} // Disable the field if not in editing mode
@@ -98,8 +95,7 @@ export default function UpdateDetails() {
               type="email"
               id="email"
               placeholder="Enter Email Here"
-              name="email"
-              required
+              name="emai"
               className="border-2 w-full rounded-3xl block self-center p-2 py-3"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -111,8 +107,7 @@ export default function UpdateDetails() {
               type="number"
               id="phone"
               placeholder="Enter Phone Number *"
-              name="Phone"
-              required
+              name="Phon"
               className="border-2 w-full rounded-3xl block self-center p-2 py-3"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -135,6 +130,7 @@ export default function UpdateDetails() {
                   type="text"
                   id="shopURL"
                   name="shopURL"
+                  required
                   placeholder="Enter Shop URL *"
                   className="border-2 w-full rounded-3xl block self-center p-2 py-3"
                   onChange={(e) => setShopUrl(e.target.value)}
@@ -146,6 +142,7 @@ export default function UpdateDetails() {
                   type="number"
                   id="GSTIN Number"
                   name="GSTIN Number"
+                  required
                   placeholder="GSTIN Number *"
                   className="border-2 w-full rounded-3xl block self-center p-2 py-3 mb-9"
                   onChange={(e) => setGstIN(e.target.value)}
