@@ -11,9 +11,9 @@ function App() {
     <div>
       <Router>
         <Routes>
-          {/* <Route path="/" element={<ProductFeed />}></Route> */}
-          {/* <Route path="/Signin" element={<LoginPage />}></Route> */}
-          {/* <Route path="/product/:productId" Component={Productdesc}></Route> */}
+          <Route path="/" element={<ProductFeed />}></Route>
+          <Route path="/Signin" element={<LoginPage />}></Route>
+          <Route path="/product/:productId" Component={Productdesc}></Route>
           <Route path="/update" element={<UpdateDetails/>}></Route>
           <Route path="/addproduct" element={<AddProduct/>}></Route>
         </Routes>

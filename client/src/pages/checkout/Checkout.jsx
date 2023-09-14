@@ -4,10 +4,8 @@ import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
 import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
-import Uilcart from "@iconscout/react-unicons/icons/uil-shopping-cart-alt";
 
-
-export default function AddProduct() {
+export default function Checkout() {
   const [searchValue, setSearchValue] = useState("");
   const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("");
@@ -112,11 +110,6 @@ export default function AddProduct() {
           <Link to="/update" className="font-semibold">
             &lt; Back
           </Link>
-          <div className="border-2 flex flex-row space-x-2 w-[130px] p-2 rounded-lg">
-            <Uilcart size="25" color="#000" className="" />
-            <span>|</span>
-            <span>My Cart</span>
-          </div>
         </div>
       </div>
       <div className="px-24 flex flex-col items-center">

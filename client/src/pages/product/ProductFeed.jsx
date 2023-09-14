@@ -44,6 +44,7 @@ export default function ProductFeed() {
     setSearchResults(filteredResults);
     setSearchTrue(event);
   };
+  
 
   return (
     <div>

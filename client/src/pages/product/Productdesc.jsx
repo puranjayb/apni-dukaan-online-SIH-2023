@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UilBars from "@iconscout/react-unicons/icons/uil-bars";
 import UilSearch from "@iconscout/react-unicons/icons/uil-search";
@@ -7,14 +7,16 @@ import { MockDB } from "./MockDB.js";
 import { Link } from "react-router-dom";
 import ProductFeed from "./ProductFeed.jsx";
 import Footer from "../../components/footer/Footer.jsx";
+import { MockDBsmall } from "./MockDBsmall.js";
+import axios from "axios"
 
 export default function Productdesc() {
+  const [demo, setDemo] = useState(MockDBsmall);
+
   const { productId } = useParams();
-  console.log(productId);
   const product = MockDB.find(
     (product) => product.ProductId === parseInt(productId)
   );
-  console.log(product);
   const [searchValue, setSearchValue] = useState("");
   const [searchTrue, setSearchTrue] = useState(false);
 
@@ -28,9 +30,62 @@ export default function Productdesc() {
 
     setSearchTrue(event);
   };
+  let finalreccomendations;
+
+  const getRecommendations = () => {
+    const config = {
+      method: "post",
+      url: "http://10.4.241.164:5000/upload",
+      headers: {},
+      data: {
+        image_url: product.imageUrl.replace(/\\/g, '')
+      }
+    }
+
+    axios(config).then(async function (response) {
+      const recommendations = await response.data.recommended_product_ids
+      finalreccomendations = createComponentsWithUniqueIds(MockDB, recommendations);
+      setDemo(finalreccomendations)
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
+  }
+
+  function createComponentsWithUniqueIds(products, neededProductIds) {
+    const reccomendedComponents = [];
+  
+    // Iterate through the products
+    for (const product of products) {
+      // Check if the product ID is in the list of needed IDs
+      if (neededProductIds.includes(product.ProductId.toString())) {
+        // Create a component for the product (replace with your actual component creation logic)
+        const component = product;
+  
+        // Add the component to the list of unique components
+        reccomendedComponents.push(component);
+  
+        // Remove the product ID from the list of needed IDs to ensure uniqueness
+        const index = neededProductIds.indexOf(product.productId);
+        if (index !== -1) {
+          neededProductIds.splice(index, 1);
+        }
+      }
+    }
+  
+    return reccomendedComponents;
+  }
+
+  useEffect(() => {
+    getRecommendations();
+  }, []);
+  
+
 
   return (
-    <div className="overflow-hidden">
+    <div
+      className="overflow-hidden"
+    >
       <div className="bg-black flex justify-between text-white px-2 md:px-10 lg:px-24 py-3 text-xs">
         <div className="flex flex-row md:space-x-2">
           <img className="h-[20px]" src={"/phone.png"} alt="" />
@@ -48,7 +103,6 @@ export default function Productdesc() {
           www.mygov.in
         </a>
       </div>
-
       {/* Searchbar Nav */}
       <div className="bg-[#08122B] flex flex-row px-1 md:px-3 py-3 justify-between items-center">
         <img src={"/Postal.png"} alt="" className="w-24 md:w-auto" />
@@ -174,8 +228,10 @@ export default function Productdesc() {
         </div>
       </div>
       <div className="border-t-2 border-black m-10">
+       <span className="block text-center mt-5 text-2xl font-semibold">Recommended Products :</span>
+       <span className="block text-center mt-5 text-2xl text-sm">With our own Industry level AI/ML Model</span>
         <div className="flex flex-wrap p-4 justify-center">
-          {/* {records.map((product, index) => (
+          {demo.map((product, index) => (
               <div
                 key={index}
                 className="bg-gray-100 shadow-md hover:shadow-xl rounded-lg max-w-sm m-5"
@@ -201,7 +257,7 @@ export default function Productdesc() {
                   </div>
                 </div>
               </div>
-            ))} */}
+            ))}
         </div>
       </div>
       <Footer />
