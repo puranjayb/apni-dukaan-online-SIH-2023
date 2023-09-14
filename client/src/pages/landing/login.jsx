@@ -1,10 +1,11 @@
+import LoginNavbar from "../../components/navbar/LoginNavbar";
 import Navbar from "../../components/navbar/LoginNavbar";
 
 export default function LoginPage() {
   return (
     <div className="div">
       <div className="flex flex-col items-center justify-center h-screen w-screen overflow-hidden bg-[#333333]">
-        <Navbar />
+        <LoginNavbar/>
         <div className="flex h-full w-full">
           <div className="absolute z-0 bottom-0">
             <img src="loginbg.png" alt="" className="h-[70vh]" />
