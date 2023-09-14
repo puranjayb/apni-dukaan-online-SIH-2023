@@ -47,12 +47,14 @@ def upload_image():
         cosine_sim = linear_kernel(recommendations, df_embedding)
         top_indices = cosine_sim.argsort()[0][-5:][::-1]
 
+
         recommended_product_ids = []
         for idx in top_indices:
             product_id = df['ProductId'].iloc[idx]
             recommended_product_ids.append(str(product_id))
 
         return jsonify({'recommended_product_ids': recommended_product_ids}), 200
+
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
