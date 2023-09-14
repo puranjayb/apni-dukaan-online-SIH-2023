@@ -2,13 +2,13 @@ const Store = require("../../models/Store");
 const Product = require("../../models/Product");
 
 const products = async (req, res) => {
-  const { id } = req.body;
+  const { url } = req.body;
 
   try {
     const response = [];
     const products = [];
 
-    const store = await Store.findById(id);
+    const store = await Store.findOne({ url });
 
     if (!store) {
       return res.status(404).json({ message: "Store not found" });
@@ -23,7 +23,7 @@ const products = async (req, res) => {
         products.push(product);
       } else {
         store.products = store.products.filter(
-          (productId) => productId !== prodId,
+          (productId) => productId !== prodId
         );
         await store.save();
       }
