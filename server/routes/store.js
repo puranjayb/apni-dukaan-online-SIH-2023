@@ -10,6 +10,7 @@ const {
   url,
   orders,
   createOrder,
+  getProduct,
 } = require("../controllers/store");
 
 router.get("/products", products);
@@ -26,5 +27,6 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   createOrder,
 );
+router.get("/product", getProduct);
 
 module.exports = router;
