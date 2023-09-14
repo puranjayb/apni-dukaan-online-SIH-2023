@@ -11,10 +11,11 @@ const mongoose = require("mongoose");
 
 const addProduct = async (req, res) => {
   const { user } = req;
-  const storeId = req.body.store;
+  const storeUrl = req.body.store;
+  console.log(req.body);
 
   try {
-    const store = await Store.findById(storeId);
+    const store = await Store.findOne({ url: storeUrl });
 
     if (!store) {
       return res.status(404).json({ message: "Store not found" });
@@ -29,14 +30,13 @@ const addProduct = async (req, res) => {
 
     // Generate a new ObjectId for the filename
     const objectId = new mongoose.Types.ObjectId();
-    const fileName =
-      objectId.toString() +
-      imageFile.originalname.split(".").pop().toLowerCase();
+    const fileName = objectId.toString() + ".";
+    imageFile.originalname.split(".").pop().toLowerCase();
 
     const storage = getStorage(firebaseApp);
     const imagesRef = ref(
       storage,
-      `images/stores/${store._id}/products/${fileName}`,
+      `images/stores/${store._id}/products/${fileName}`
     );
 
     await uploadBytes(imagesRef, imageFile.buffer);

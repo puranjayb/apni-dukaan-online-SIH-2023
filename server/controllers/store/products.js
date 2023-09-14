@@ -2,7 +2,7 @@ const Store = require("../../models/Store");
 const Product = require("../../models/Product");
 
 const products = async (req, res) => {
-  const { url } = req.body;
+  const { url } = req.query;
 
   try {
     const response = [];

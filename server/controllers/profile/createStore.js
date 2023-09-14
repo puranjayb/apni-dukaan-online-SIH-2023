@@ -38,7 +38,7 @@ const createStore = async (req, res) => {
     const storeId = new mongoose.Types.ObjectId();
 
     const fileName =
-      "logo" + logoFile.originalname.split(".").pop().toLowerCase();
+      "logo" + "." + logoFile.originalname.split(".").pop().toLowerCase();
 
     const imagesRef = ref(storage, `images/stores/${storeId}/${fileName}`);
 
