@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("./passport.config");
+var cors = require("cors");
 const { initializeFirebase } = require("./firebase.config");
 
 const app = express();
@@ -12,6 +13,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
+app.use(cors());
 
 // Routes
 const authRoutes = require("./routes/auth");
@@ -22,7 +24,7 @@ app.use("/auth", authRoutes);
 app.use(
   "/profile",
   passport.authenticate("jwt", { session: false }),
-  profileRoutes,
+  profileRoutes
 );
 app.use("/store", storeRoutes);
 
